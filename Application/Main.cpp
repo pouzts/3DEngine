@@ -167,7 +167,7 @@ int main(int argc, char** argv)
 
         SDL_PumpEvents();
 
-        time += 0.0001f;
+        time += 0.01f;
         glUniform1f(location, std::sin(time));
         glUniform3fv(tintLocation, 1, &tint[0]);
 
