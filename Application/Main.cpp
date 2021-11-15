@@ -1,33 +1,47 @@
 #include <glad\glad.h>
 #include <sdl.h>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+
 #include <iostream>
 
 // vertices
 const float vertices[] =
 {
-    -0.5f, -0.5f,
-     0.5f, -0.5f,
-     0.0f,  0.5f
+    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, //added color
+     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+     0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f
 };
 
 // vertex shader
 const char* vertexSource = R"(
     #version 430 core 
-    in vec2 position;
+    layout(location = 0) in vec3 position;
+    layout(location = 1) in vec3 color;
+
+    out vec3 fs_color;
+
+    uniform float scale;
+
     void main()
     {
-        gl_Position = vec4(position * 2, 0.0, 1.0);
+        fs_color = color;
+        gl_Position = vec4(position * scale, 1.0);
     }
 )";
 
 // fragment
 const char* fragmentSource = R"(
     #version 430 core
+
+    in vec3 fs_color;
     out vec4 outColor;
+
+    uniform vec3 tint;
 
     void main()
     {
-        outColor = vec4(1.0, 1.0, 0.0, 1.0);
+        outColor = vec4(fs_color, 1.0) * vec4(tint, 1.0);
     }
 )";
 
@@ -79,9 +93,9 @@ int main(int argc, char** argv)
     glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
     glCompileShader(fragmentShader);
 
-    GLint fragStatus;
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fragStatus);
-    if (fragStatus == GL_FALSE)
+    //GLint fragStatus;
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
+    if (status == GL_FALSE)
     {
         char buffer[512];
         glGetShaderInfoLog(fragmentShader, 512, NULL, buffer);
@@ -93,17 +107,45 @@ int main(int argc, char** argv)
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
 
+    // link and use program
     glLinkProgram(shaderProgram);
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &status);
+
+    if (status == GL_FALSE)
+    {
+        char buffer[512];
+        glGetProgramInfoLog(shaderProgram, 512, NULL, buffer);
+        std::cout << buffer;
+    }
+
     glUseProgram(shaderProgram);
 
+    // vertex array object
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    // create vertex buffer
     GLuint vbo;
     glGenBuffers(1, &vbo);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    // position
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLubyte*)NULL);
     glEnableVertexAttribArray(0);
+
+    // color
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
+
+    // uniform
+    GLuint location = glGetUniformLocation(shaderProgram, "scale");
+    float time = 0;
+
+    GLuint tintLocation = glGetUniformLocation(shaderProgram, "tint");
+    glm::vec3 tint{1.0f, 0.5f, 0.5f};
 
     bool quit = false;
     while (!quit)
@@ -125,7 +167,11 @@ int main(int argc, char** argv)
 
         SDL_PumpEvents();
 
-        glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
+        time += 0.0001f;
+        glUniform1f(location, std::sin(time));
+        glUniform3fv(tintLocation, 1, &tint[0]);
+
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
