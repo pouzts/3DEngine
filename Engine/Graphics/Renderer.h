@@ -1,7 +1,7 @@
 #pragma once
 #include "Framework/System.h"
-#include "Graphics/Texture.h"
 #include "Math/Transform.h"
+#include <glad/glad.h>
 #include <SDL.h>
 #include <string>
 
@@ -21,7 +21,7 @@ namespace PhoenixEngine
 		friend class Texture;
 
 	private:
-		SDL_Renderer* renderer{ nullptr };
+		SDL_GLContext context;
 		SDL_Window* window{nullptr};
 	};
 }

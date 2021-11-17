@@ -18,4 +18,12 @@
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Build\resources\shaders\basic.frag">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\Build\resources\shaders\basic.vert">
+      <Filter>Resources</Filter>
+    </None>
+  </ItemGroup>
 </Project>

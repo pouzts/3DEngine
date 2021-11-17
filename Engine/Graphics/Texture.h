@@ -1,27 +1,26 @@
 #pragma once
+#include "Renderer.h"
 #include "Resource/Resource.h"
 #include "Math/MathTypes.h"
 #include <SDL.h>
+#include <glad/glad.h>
 
-namespace PhoenixEngine{
-
-	class Renderer;
-
+namespace PhoenixEngine
+{
 	class Texture : public Resource
 	{
 	public:
-		Texture() {}
-		Texture(Renderer* renderer);
+		~Texture();
+		bool Load(const std::string& name, void* null) override;
 
-		bool Load(const std::string& filename, void* data) override;
-		bool Create(SDL_Surface* surface);
+		void Bind() { glBindTexture(target, texture); }
+		bool CreateTexture(const std::string& filename, GLenum target = GL_TEXTURE_2D, GLuint unit = GL_TEXTURE0);
 
-		glm::vec2 GetSize() const;
+		static void FlipSurface(SDL_Surface* surface);
 
-		friend class Renderer;
-	
-	private:
-		SDL_Texture* texture{ nullptr };
-		SDL_Renderer* renderer{ nullptr };
+	protected:
+		GLenum target{ GL_TEXTURE_2D };
+		GLuint unit{ GL_TEXTURE0 };
+		GLuint texture{ 0 };
 	};
 }
