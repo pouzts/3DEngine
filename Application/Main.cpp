@@ -67,12 +67,6 @@ int main(int argc, char** argv)
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
     }
 
-    SDL_Window* window = SDL_CreateWindow("OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
-    if (window == nullptr)
-    {
-        SDL_Log("Failed to create window: %s", SDL_GetError());
-    }
-
     // set vertex shader
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexSource, NULL);
