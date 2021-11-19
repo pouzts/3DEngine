@@ -5,7 +5,7 @@ namespace PhoenixEngine
 { 
 	Shader::~Shader()
 	{
-		if (program != 0)
+		if (shader != 0)
 		{
 			glDeleteShader(shader);
 		}

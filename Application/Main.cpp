@@ -8,10 +8,10 @@
 // vertices
 const float vertices[] =
 {
-    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-     0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-    -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f
+    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+     0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+    -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f
 };
 
 const GLuint indices[] =
@@ -88,17 +88,28 @@ int main(int argc, char** argv)
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLubyte*)NULL);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLubyte*)NULL);
     glEnableVertexAttribArray(0);
 
     // color
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
+
+    // uv
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(2);
+
+    // texture
+    PhoenixEngine::Texture texture;
+    texture.CreateTexture("textures/llama.jpg");
+    texture.Bind();
 
     // uniform
     float time = 0;
+    program->SetUniform("scale", time);
 
     glm::vec3 tint{1.0f, 0.5f, 0.5f};
+    program->SetUniform("tint", tint);
 
     bool quit = false;
     while (!quit)
@@ -119,11 +130,11 @@ int main(int argc, char** argv)
         }
 
         SDL_PumpEvents();
+        engine.Update();
 
-        time += 0.01f;
+        time += engine.time.deltaTime;
+        //time += 0.01f;
         program->SetUniform("scale", std::sin(time));
-        program->SetUniform("tint", tint);
-
 
         engine.Get<PhoenixEngine::Renderer>()->BeginFrame();
 

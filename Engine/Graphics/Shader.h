@@ -13,6 +13,5 @@ namespace PhoenixEngine
 
 	public:
 		GLuint shader = 0;
-		GLuint program = 0;
 	};
 }
