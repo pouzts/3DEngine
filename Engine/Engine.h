@@ -30,6 +30,9 @@
 // Graphics
 #include "Graphics/Renderer.h"
 #include "Graphics/Texture.h"
+#include "Graphics/Shader.h"
+#include "Graphics/Material.h"
+#include "Graphics/Program.h"
 
 // Resource
 #include "Resource/ResourceSystem.h"

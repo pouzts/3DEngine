@@ -182,7 +182,10 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Framework\EventSystem.cpp" />
+    <ClCompile Include="Graphics\Material.cpp" />
+    <ClCompile Include="Graphics\Program.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
+    <ClCompile Include="Graphics\Shader.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
     <ClCompile Include="Input\InputSystem.cpp" />
     <ClCompile Include="Math\Random.cpp" />
@@ -207,7 +210,10 @@
     <ClInclude Include="Framework\Factory.h" />
     <ClInclude Include="Framework\Singleton.h" />
     <ClInclude Include="Framework\System.h" />
+    <ClInclude Include="Graphics\Material.h" />
+    <ClInclude Include="Graphics\Program.h" />
     <ClInclude Include="Graphics\Renderer.h" />
+    <ClInclude Include="Graphics\Shader.h" />
     <ClInclude Include="Graphics\Texture.h" />
     <ClInclude Include="Input\InputSystem.h" />
     <ClInclude Include="Math\MathTypes.h" />

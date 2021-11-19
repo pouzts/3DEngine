@@ -23,4 +23,5 @@ namespace PhoenixEngine
 		GLuint unit{ GL_TEXTURE0 };
 		GLuint texture{ 0 };
 	};
+
 }

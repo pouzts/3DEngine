@@ -11,7 +11,7 @@ const float vertices[] =
     -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
      0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
      0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-    -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f
+    -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f
 };
 
 const GLuint indices[] =
@@ -20,37 +20,37 @@ const GLuint indices[] =
     0, 3, 2
 };
 
-// vertex shader
-const char* vertexSource = R"(
-    #version 430 core 
-    layout(location = 0) in vec3 position;
-    layout(location = 1) in vec3 color;
-
-    out vec3 fs_color;
-
-    uniform float scale;
-
-    void main()
-    {
-        fs_color = color;
-        gl_Position = vec4(position * scale, 1.0);
-    }
-)";
-
-// fragment
-const char* fragmentSource = R"(
-    #version 430 core
-
-    in vec3 fs_color;
-    out vec4 outColor;
-
-    uniform vec3 tint;
-
-    void main()
-    {
-        outColor = vec4(fs_color, 1.0) * vec4(tint, 1.0);
-    }
-)";
+//// vertex shader
+//const char* vertexSource = R"(
+//    #version 430 core 
+//    layout(location = 0) in vec3 position;
+//    layout(location = 1) in vec3 color;
+//
+//    out vec3 fs_color;
+//
+//    uniform float scale;
+//
+//    void main()
+//    {
+//        fs_color = color;
+//        gl_Position = vec4(position * scale, 1.0);
+//    }
+//)";
+//
+//// fragment
+//const char* fragmentSource = R"(
+//    #version 430 core
+//
+//    in vec3 fs_color;
+//    out vec4 outColor;
+//
+//    uniform vec3 tint;
+//
+//    void main()
+//    {
+//        outColor = vec4(fs_color, 1.0) * vec4(tint, 1.0);
+//    }
+//)";
 
 int main(int argc, char** argv)
 {
@@ -61,57 +61,14 @@ int main(int argc, char** argv)
     PhoenixEngine::SeedRandom(static_cast<unsigned int>(time(nullptr)));
     PhoenixEngine::SetFilePath("../resources");
 
-    int result = SDL_Init(SDL_INIT_VIDEO);
-    if (result != 0)
-    {
-        SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
-    }
+    std::shared_ptr<PhoenixEngine::Program> program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("basic_program");
+    std::shared_ptr<PhoenixEngine::Shader> vshader = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Shader>("shaders/basic.vert", (void*)GL_VERTEX_SHADER);
+    std::shared_ptr<PhoenixEngine::Shader> fshader = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Shader>("shaders/basic.frag", (void*)GL_FRAGMENT_SHADER);
 
-    // set vertex shader
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexSource, NULL);
-    glCompileShader(vertexShader);
-
-    GLint status;
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
-    if (status == GL_FALSE)
-    {
-        char buffer[512];
-        glGetShaderInfoLog(vertexShader, 512, NULL, buffer);
-        std::cout << buffer;
-    }
-
-    // set fragment shader
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-    glCompileShader(fragmentShader);
-
-    //GLint fragStatus;
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
-    if (status == GL_FALSE)
-    {
-        char buffer[512];
-        glGetShaderInfoLog(fragmentShader, 512, NULL, buffer);
-        std::cout << buffer;
-    }
-
-    // create shader program
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-
-    // link and use program
-    glLinkProgram(shaderProgram);
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &status);
-
-    if (status == GL_FALSE)
-    {
-        char buffer[512];
-        glGetProgramInfoLog(shaderProgram, 512, NULL, buffer);
-        std::cout << buffer;
-    }
-
-    glUseProgram(shaderProgram);
+    program->AddShader(vshader);
+    program->AddShader(fshader);
+    program->Link();
+    program->Use();
 
     // vertex array object
     GLuint vao;
@@ -139,10 +96,8 @@ int main(int argc, char** argv)
     glEnableVertexAttribArray(1);
 
     // uniform
-    GLuint location = glGetUniformLocation(shaderProgram, "scale");
     float time = 0;
 
-    GLuint tintLocation = glGetUniformLocation(shaderProgram, "tint");
     glm::vec3 tint{1.0f, 0.5f, 0.5f};
 
     bool quit = false;
@@ -166,8 +121,9 @@ int main(int argc, char** argv)
         SDL_PumpEvents();
 
         time += 0.01f;
-        glUniform1f(location, std::sin(time));
-        glUniform3fv(tintLocation, 1, &tint[0]);
+        program->SetUniform("scale", std::sin(time));
+        program->SetUniform("tint", tint);
+
 
         engine.Get<PhoenixEngine::Renderer>()->BeginFrame();
 

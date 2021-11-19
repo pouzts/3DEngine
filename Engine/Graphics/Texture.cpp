@@ -1,7 +1,5 @@
 #include "Texture.h"
 #include <SDL_image.h>
-#include <iostream>
-#include <cassert>
 
 namespace PhoenixEngine
 {
