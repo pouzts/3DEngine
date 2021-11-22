@@ -187,6 +187,8 @@
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
+    <ClCompile Include="Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="Graphics\VertexIndexBuffer.cpp" />
     <ClCompile Include="Input\InputSystem.cpp" />
     <ClCompile Include="Math\Random.cpp" />
     <ClCompile Include="Math\Transform.cpp" />
@@ -215,6 +217,8 @@
     <ClInclude Include="Graphics\Renderer.h" />
     <ClInclude Include="Graphics\Shader.h" />
     <ClInclude Include="Graphics\Texture.h" />
+    <ClInclude Include="Graphics\VertexBuffer.h" />
+    <ClInclude Include="Graphics\VertexIndexBuffer.h" />
     <ClInclude Include="Input\InputSystem.h" />
     <ClInclude Include="Math\MathTypes.h" />
     <ClInclude Include="Math\MathUtils.h" />

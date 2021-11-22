@@ -70,34 +70,41 @@ int main(int argc, char** argv)
     program->Link();
     program->Use();
 
-    // vertex array object
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
+    //// vertex array object
+    //GLuint vao;
+    //glGenVertexArrays(1, &vao);
+    //glBindVertexArray(vao);
 
-    // create vertex buffer
-    GLuint vbo;
-    glGenBuffers(1, &vbo);
+    //// create vertex buffer
+    //GLuint vbo;
+    //glGenBuffers(1, &vbo);
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    //glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    GLuint ebo; // Element buffer object
-    glGenBuffers(1, &ebo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    //GLuint ebo; // Element buffer object
+    //glGenBuffers(1, &ebo);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    // position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLubyte*)NULL);
-    glEnableVertexAttribArray(0);
+    //// position
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLubyte*)NULL);
+    //glEnableVertexAttribArray(0);
 
-    // color
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1);
+    //// color
+    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+    //glEnableVertexAttribArray(1);
 
-    // uv
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(2);
+    //// uv
+    //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+    //glEnableVertexAttribArray(2);
+
+    std::shared_ptr<PhoenixEngine::VertexIndexBuffer> vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexIndexBuffer>("vertex_index_buffer");
+    vertexBuffer->CreateVertexBuffer(sizeof(vertices), 4, (void*)vertices);
+    vertexBuffer->CreateIndexBuffer(GL_UNSIGNED_INT, 6, (void*)indices);
+    vertexBuffer->SetAttribute(0, 3, 8 * sizeof(GLfloat), 0); // position
+    vertexBuffer->SetAttribute(1, 3, 8 * sizeof(GLfloat), 3 * sizeof(GLfloat)); // color
+    vertexBuffer->SetAttribute(2, 2, 8 * sizeof(GLfloat), 6 * sizeof(GLfloat)); // uv
 
     // texture
     PhoenixEngine::Texture texture;
@@ -139,7 +146,8 @@ int main(int argc, char** argv)
         engine.Get<PhoenixEngine::Renderer>()->BeginFrame();
 
         //glDrawArrays(GL_TRIANGLES, 0, 3);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        vertexBuffer->Draw();
 
         engine.Get<PhoenixEngine::Renderer>()->EndFrame();
     }

@@ -33,6 +33,8 @@
 #include "Graphics/Shader.h"
 #include "Graphics/Material.h"
 #include "Graphics/Program.h"
+#include "Graphics/VertexBuffer.h"
+#include "Graphics/VertexIndexBuffer.h"
 
 // Resource
 #include "Resource/ResourceSystem.h"
