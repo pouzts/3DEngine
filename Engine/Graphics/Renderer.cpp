@@ -54,12 +54,14 @@ namespace PhoenixEngine
 			SDL_Log("Failed to create OpenGL context");
 			exit(-1);
 		}
+
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void Renderer::BeginFrame()
 	{
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void Renderer::EndFrame()

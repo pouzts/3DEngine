@@ -104,7 +104,7 @@ namespace PhoenixEngine
 
 	void Program::SetUniform(const std::string& name, float value)
 	{
-		GLfloat uniform = GetUniform(name);
+		GLint uniform = GetUniform(name);
 		glUniform1f(uniform, value);
 	}
 
@@ -116,13 +116,13 @@ namespace PhoenixEngine
 
 	void Program::SetUniform(const std::string& name, bool value)
 	{
-		GLboolean uniform = GetUniform(name);
+		GLint uniform = GetUniform(name);
 		glUniform1i(uniform, value);
 	}
 
 	void Program::SetUniform(const std::string& name, GLuint value)
 	{
-		GLuint uniform = GetUniform(name);
+		GLint uniform = GetUniform(name);
 		glUniform1ui(uniform, value);
 	}
 
@@ -136,16 +136,11 @@ namespace PhoenixEngine
 			GLint uniform = glGetUniformLocation(program, name.c_str());
 			if (uniform != -1)
 			{
-				uniforms[name] = uniform;
-			}
-			else
-			{
 				SDL_Log("Could not find uniform: %s", name.c_str());
-				return -1;
 			}
+			uniforms[name] = uniform;
 		}
 
 		return uniforms[name];
 	}
-
 }

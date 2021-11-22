@@ -16,7 +16,7 @@ namespace PhoenixEngine
 
 		glm::mat4 matrix;
 
-		Transform() {}
+		Transform() = default;
 		Transform(const glm::vec3& position, float rotation = 0, float scale = 1) : position{ position }, rotation{ rotation }, scale{ scale } {}
 
 		void Update();

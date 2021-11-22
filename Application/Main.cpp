@@ -8,16 +8,38 @@
 // vertices
 const float vertices[] =
 {
-    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-     0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-    -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f
+    // front
+    -1.0f, -1.0f,  1.0, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+     1.0f, -1.0f,  1.0, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+     1.0f,  1.0f,  1.0, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+    -1.0f,  1.0f,  1.0, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+    // back
+    -1.0f, -1.0f, -1.0, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+     1.0f, -1.0f, -1.0, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+     1.0f,  1.0f, -1.0, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+    -1.0f,  1.0f, -1.0, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f
 };
 
 const GLuint indices[] =
 {
-    0, 2, 1,
-    0, 3, 2
+    // front
+    0, 1, 2,
+    2, 3, 0,
+    // right
+    1, 5, 6,
+    6, 2, 1,
+    // back
+    7, 6, 5,
+    5, 4, 7,
+    // left
+    4, 0, 3,
+    3, 7, 4,
+    // bottom
+    4, 5, 1,
+    1, 0, 4,
+    // top
+    3, 2, 6,
+    6, 7, 3
 };
 
 int main(int argc, char** argv)
@@ -39,8 +61,8 @@ int main(int argc, char** argv)
     program->Use();
 
     std::shared_ptr<PhoenixEngine::VertexIndexBuffer> vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexIndexBuffer>("vertex_index_buffer");
-    vertexBuffer->CreateVertexBuffer(sizeof(vertices), 4, (void*)vertices);
-    vertexBuffer->CreateIndexBuffer(GL_UNSIGNED_INT, 6, (void*)indices);
+    vertexBuffer->CreateVertexBuffer(sizeof(vertices), 8, (void*)vertices);
+    vertexBuffer->CreateIndexBuffer(GL_UNSIGNED_INT, 36, (void*)indices);
     vertexBuffer->SetAttribute(0, 3, 8 * sizeof(GLfloat), 0); // position
     vertexBuffer->SetAttribute(1, 3, 8 * sizeof(GLfloat), 3 * sizeof(GLfloat)); // color
     vertexBuffer->SetAttribute(2, 2, 8 * sizeof(GLfloat), 6 * sizeof(GLfloat)); // uv
@@ -56,6 +78,13 @@ int main(int argc, char** argv)
 
     glm::vec3 tint{1.0f, 0.5f, 0.5f};
     program->SetUniform("tint", tint);
+
+    glm::vec4 view{ 1 };
+    //view = glm::lookAt(glm::vec3{ 0, 0, 1 }, glm::vec3{ 0, 0, 0 }, glm::vec3{0, 1, 0});
+    program->SetUniform("view", view);
+
+    glm::vec3 translate{ 0.0f };
+    float angle = 0;
 
     bool quit = false;
     while (!quit)
@@ -79,7 +108,32 @@ int main(int argc, char** argv)
         engine.Update();
 
         time += engine.time.deltaTime;
-        program->SetUniform("scale", std::sin(time));
+        program->SetUniform("scale", 1.0f);
+
+        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_A) == PhoenixEngine::InputSystem::eKeyState::Held)
+        {
+            translate.x -= 1 * engine.time.deltaTime;
+        }
+        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_D) == PhoenixEngine::InputSystem::eKeyState::Held)
+        {
+            translate.x += 1 * engine.time.deltaTime;
+        }
+        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_W) == PhoenixEngine::InputSystem::eKeyState::Held)
+        {
+            translate.y += 1 * engine.time.deltaTime;
+        }
+        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_S) == PhoenixEngine::InputSystem::eKeyState::Held)
+        {
+            translate.y -= 1 * engine.time.deltaTime;
+        }
+
+        angle += engine.time.deltaTime;
+
+        glm::mat4 model{ 1.0f };
+        model = glm::scale(model, glm::vec3{0.25f});
+        model = glm::rotate(model, angle, glm::vec3{0, 1, 0});
+        model = glm::translate(model, translate);
+        program->SetUniform("model", model);
 
         engine.Get<PhoenixEngine::Renderer>()->BeginFrame();
 
