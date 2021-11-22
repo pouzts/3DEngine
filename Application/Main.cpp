@@ -1,8 +1,8 @@
+#include "Engine.h"
 #include <glad\glad.h>
 #include <sdl.h>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
-#include "Engine.h"
 #include <iostream>
 
 // vertices
