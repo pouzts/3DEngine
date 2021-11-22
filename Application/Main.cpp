@@ -20,38 +20,6 @@ const GLuint indices[] =
     0, 3, 2
 };
 
-//// vertex shader
-//const char* vertexSource = R"(
-//    #version 430 core 
-//    layout(location = 0) in vec3 position;
-//    layout(location = 1) in vec3 color;
-//
-//    out vec3 fs_color;
-//
-//    uniform float scale;
-//
-//    void main()
-//    {
-//        fs_color = color;
-//        gl_Position = vec4(position * scale, 1.0);
-//    }
-//)";
-//
-//// fragment
-//const char* fragmentSource = R"(
-//    #version 430 core
-//
-//    in vec3 fs_color;
-//    out vec4 outColor;
-//
-//    uniform vec3 tint;
-//
-//    void main()
-//    {
-//        outColor = vec4(fs_color, 1.0) * vec4(tint, 1.0);
-//    }
-//)";
-
 int main(int argc, char** argv)
 {
     PhoenixEngine::Engine engine;
@@ -69,35 +37,6 @@ int main(int argc, char** argv)
     program->AddShader(fshader);
     program->Link();
     program->Use();
-
-    //// vertex array object
-    //GLuint vao;
-    //glGenVertexArrays(1, &vao);
-    //glBindVertexArray(vao);
-
-    //// create vertex buffer
-    //GLuint vbo;
-    //glGenBuffers(1, &vbo);
-
-    //glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    //GLuint ebo; // Element buffer object
-    //glGenBuffers(1, &ebo);
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    //// position
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLubyte*)NULL);
-    //glEnableVertexAttribArray(0);
-
-    //// color
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-    //glEnableVertexAttribArray(1);
-
-    //// uv
-    //glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
-    //glEnableVertexAttribArray(2);
 
     std::shared_ptr<PhoenixEngine::VertexIndexBuffer> vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexIndexBuffer>("vertex_index_buffer");
     vertexBuffer->CreateVertexBuffer(sizeof(vertices), 4, (void*)vertices);
@@ -140,13 +79,10 @@ int main(int argc, char** argv)
         engine.Update();
 
         time += engine.time.deltaTime;
-        //time += 0.01f;
         program->SetUniform("scale", std::sin(time));
 
         engine.Get<PhoenixEngine::Renderer>()->BeginFrame();
 
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
-        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         vertexBuffer->Draw();
 
         engine.Get<PhoenixEngine::Renderer>()->EndFrame();
