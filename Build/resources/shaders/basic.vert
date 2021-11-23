@@ -6,13 +6,13 @@ layout(location = 2) in vec2 texcoord;
 out vec3 fs_color;
 out vec2 fs_texcoord;
 
-uniform float scale;
 uniform mat4 model;
 uniform mat4 view;
+uniform mat4 projection;
 
 void main()
 {
     fs_color = color;
     fs_texcoord = texcoord;
-    gl_Position = view * model * vec4(position * scale, 1.0);
+    gl_Position = projection * view * model * vec4(position, 1.0);
 }

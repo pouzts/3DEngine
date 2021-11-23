@@ -79,9 +79,11 @@ int main(int argc, char** argv)
     glm::vec3 tint{1.0f, 0.5f, 0.5f};
     program->SetUniform("tint", tint);
 
-    glm::vec4 view{ 1 };
-    //view = glm::lookAt(glm::vec3{ 0, 0, 1 }, glm::vec3{ 0, 0, 0 }, glm::vec3{0, 1, 0});
+    glm::mat4 view = glm::lookAt(glm::vec3{ 0, 0, 2 }, glm::vec3{ 0, 0, 0 }, glm::vec3{ 0, 1, 0 });
     program->SetUniform("view", view);
+
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+    program->SetUniform("projection", projection);
 
     glm::vec3 translate{ 0.0f };
     float angle = 0;
@@ -130,9 +132,9 @@ int main(int argc, char** argv)
         angle += engine.time.deltaTime;
 
         glm::mat4 model{ 1.0f };
-        model = glm::scale(model, glm::vec3{0.25f});
-        model = glm::rotate(model, angle, glm::vec3{0, 1, 0});
         model = glm::translate(model, translate);
+        model = glm::rotate(model, angle, glm::vec3{ 0, 1, 0 });
+        model = glm::scale(model, glm::vec3{ 0.25f });
         program->SetUniform("model", model);
 
         engine.Get<PhoenixEngine::Renderer>()->BeginFrame();
