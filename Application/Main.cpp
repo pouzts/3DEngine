@@ -65,7 +65,7 @@ int main(int argc, char** argv)
     program->Use();
 
     // vertex buffer
-    std::shared_ptr<PhoenixEngine::VertexIndexBuffer> vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexIndexBuffer>("cube_mesh");
+    std::shared_ptr<PhoenixEngine::VertexBuffer> vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexBuffer>("cube_mesh");
     vertexBuffer->CreateVertexBuffer(sizeof(vertices), 8, (void*)vertices);
     vertexBuffer->CreateIndexBuffer(GL_UNSIGNED_INT, 36, (void*)indices);
     vertexBuffer->SetAttribute(0, 3, 8 * sizeof(GLfloat), 0); // position
@@ -105,7 +105,7 @@ int main(int argc, char** argv)
 
         auto component = PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::MeshComponent>("MeshComponent");
         component->program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("basic_shader");
-        component->vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexIndexBuffer>("cube_mesh");
+        component->vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexBuffer>("cube_mesh");
 
         actor->AddComponent(std::move(component));
         scene->AddActor(std::move(actor));

@@ -6,6 +6,7 @@ namespace PhoenixEngine
 	{
 		if (vao != 0) glDeleteVertexArrays(1, &vao);
 		if (vbo != 0) glDeleteBuffers(1, &vbo);
+		if (ibo != 0) glDeleteBuffers(1, &ibo);
 	}
 
 	bool VertexBuffer::Load(const std::string& filename, void* data)
@@ -30,9 +31,27 @@ namespace PhoenixEngine
 		glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, (void*)(offset));
 	}
 
+	void VertexBuffer::CreateIndexBuffer(GLenum indexType, GLsizei count, void* data)
+	{
+		this->indexType = indexType;
+		this->indexCount = indexCount;
+
+		glGenBuffers(1, &ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		size_t indexSize = (indexType == GL_UNSIGNED_SHORT) ? sizeof(GLushort) : sizeof(GLuint);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * indexSize, data, GL_STATIC_DRAW);
+	}
+
 	void VertexBuffer::Draw(GLenum primativeType)
 	{
 		glBindVertexArray(vao);
-		glDrawArrays(primativeType, 0, vertexCount);
+		if (ibo)
+		{
+			glDrawElements(primativeType, indexCount, indexType, 0);
+		}
+		else if (vbo)
+		{
+			glDrawArrays(primativeType, 0, vertexCount);
+		}
 	}
 }
