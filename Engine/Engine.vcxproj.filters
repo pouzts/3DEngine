@@ -44,9 +44,6 @@
     <ClCompile Include="Math\Random.cpp">
       <Filter>Source\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Transform.cpp">
-      <Filter>Source\Math</Filter>
-    </ClCompile>
     <ClCompile Include="Object\Actor.cpp">
       <Filter>Source\Object</Filter>
     </ClCompile>
@@ -107,6 +104,15 @@
     <ClCompile Include="Graphics\VertexIndexBuffer.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Component\CameraComponent.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\MeshComponent.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Transform.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -116,9 +122,6 @@
       <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="Math\Random.h">
-      <Filter>Source\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Transform.h">
       <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="Object\Actor.h">
@@ -207,6 +210,15 @@
     </ClInclude>
     <ClInclude Include="Graphics\VertexIndexBuffer.h">
       <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\CameraComponent.h">
+      <Filter>Source\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Transform.h">
+      <Filter>Source\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\MeshComponent.h">
+      <Filter>Source\Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

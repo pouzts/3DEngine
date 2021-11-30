@@ -26,6 +26,8 @@
 // Component
 #include "Component/PhysicsComponent.h"
 #include "Component/AudioComponent.h"
+#include "Component/CameraComponent.h"
+#include "Component/MeshComponent.h"
 
 // Graphics
 #include "Graphics/Renderer.h"

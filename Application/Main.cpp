@@ -48,10 +48,14 @@ int main(int argc, char** argv)
     engine.Startup();
     engine.Get<PhoenixEngine::Renderer>()->Create("OpenGL", 800, 600);
 
+    // create scene
+    std::unique_ptr<PhoenixEngine::Scene> scene = std::make_unique<PhoenixEngine::Scene>();
+    scene->engine = &engine;
+
     PhoenixEngine::SeedRandom(static_cast<unsigned int>(time(nullptr)));
     PhoenixEngine::SetFilePath("../resources");
 
-    std::shared_ptr<PhoenixEngine::Program> program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("basic_program");
+    std::shared_ptr<PhoenixEngine::Program> program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("basic_shader");
     std::shared_ptr<PhoenixEngine::Shader> vshader = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Shader>("shaders/basic.vert", (void*)GL_VERTEX_SHADER);
     std::shared_ptr<PhoenixEngine::Shader> fshader = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Shader>("shaders/basic.frag", (void*)GL_FRAGMENT_SHADER);
 
@@ -60,7 +64,8 @@ int main(int argc, char** argv)
     program->Link();
     program->Use();
 
-    std::shared_ptr<PhoenixEngine::VertexIndexBuffer> vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexIndexBuffer>("vertex_index_buffer");
+    // vertex buffer
+    std::shared_ptr<PhoenixEngine::VertexIndexBuffer> vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexIndexBuffer>("cube_mesh");
     vertexBuffer->CreateVertexBuffer(sizeof(vertices), 8, (void*)vertices);
     vertexBuffer->CreateIndexBuffer(GL_UNSIGNED_INT, 36, (void*)indices);
     vertexBuffer->SetAttribute(0, 3, 8 * sizeof(GLfloat), 0); // position
@@ -68,23 +73,45 @@ int main(int argc, char** argv)
     vertexBuffer->SetAttribute(2, 2, 8 * sizeof(GLfloat), 6 * sizeof(GLfloat)); // uv
 
     // texture
-    PhoenixEngine::Texture texture;
-    texture.CreateTexture("textures/llama.jpg");
-    texture.Bind();
+    {
+        auto texture = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Texture>("textures/llama.jpg");
+        texture->Bind();
+
+        texture = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Texture>("textures/wood.png");
+        texture->Bind();
+
+        /*texture = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Texture>("textures/rocks.bmp");
+        texture->Bind();*/
+    }
+
+    // create camera
+    {
+        auto actor = PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::Actor>("Actor");
+        actor->name = "camera";
+        actor->transform.position = glm::vec3{ 0, 0, 10 };
+
+        auto component = PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::CameraComponent>("CameraComponent");
+        component->SetPerspective(45.0f, 800.0f / 600.0f, 0.01f, 100.0f);
+
+        actor->AddComponent(std::move(component));
+        scene->AddActor(std::move(actor));
+    }
+
+    // create cube
+    {
+        auto actor = PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::Actor>("Actor");
+        actor->name = "cube";
+        actor->transform.position = glm::vec3{ 0, 0, 0 };
+
+        auto component = PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::MeshComponent>("MeshComponent");
+        component->program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("basic_shader");
+        component->vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexIndexBuffer>("cube_mesh");
+
+        actor->AddComponent(std::move(component));
+        scene->AddActor(std::move(actor));
+    }
 
     // uniform
-    float time = 0;
-    program->SetUniform("scale", time);
-
-    glm::vec3 tint{1.0f, 0.5f, 0.5f};
-    program->SetUniform("tint", tint);
-
-    glm::mat4 view = glm::lookAt(glm::vec3{ 0, 0, 2 }, glm::vec3{ 0, 0, 0 }, glm::vec3{ 0, 1, 0 });
-    program->SetUniform("view", view);
-
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
-    program->SetUniform("projection", projection);
-
     glm::vec3 translate{ 0.0f };
     float angle = 0;
 
@@ -109,37 +136,27 @@ int main(int argc, char** argv)
         SDL_PumpEvents();
         engine.Update();
 
-        time += engine.time.deltaTime;
-        program->SetUniform("scale", 1.0f);
+        scene->Update(engine.time.deltaTime);
 
-        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_A) == PhoenixEngine::InputSystem::eKeyState::Held)
-        {
-            translate.x -= 1 * engine.time.deltaTime;
-        }
-        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_D) == PhoenixEngine::InputSystem::eKeyState::Held)
-        {
-            translate.x += 1 * engine.time.deltaTime;
-        }
-        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_W) == PhoenixEngine::InputSystem::eKeyState::Held)
-        {
-            translate.y += 1 * engine.time.deltaTime;
-        }
-        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_S) == PhoenixEngine::InputSystem::eKeyState::Held)
-        {
-            translate.y -= 1 * engine.time.deltaTime;
-        }
+        // update actor
+        glm::vec3 direction{ 0 };
+        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_A) == PhoenixEngine::InputSystem::eKeyState::Held) direction.x = -1;
+        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_D) == PhoenixEngine::InputSystem::eKeyState::Held) direction.x = 1;
+        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_W) == PhoenixEngine::InputSystem::eKeyState::Held) direction.z = -1;
+        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_S) == PhoenixEngine::InputSystem::eKeyState::Held) direction.z = 1;
+        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_E) == PhoenixEngine::InputSystem::eKeyState::Held) direction.y = 1;
+        if (engine.Get<PhoenixEngine::InputSystem>()->GetKeyState(SDL_SCANCODE_Q) == PhoenixEngine::InputSystem::eKeyState::Held) direction.y = -1;
 
-        angle += engine.time.deltaTime;
-
-        glm::mat4 model{ 1.0f };
-        model = glm::translate(model, translate);
-        model = glm::rotate(model, angle, glm::vec3{ 0, 1, 0 });
-        model = glm::scale(model, glm::vec3{ 0.25f });
-        program->SetUniform("model", model);
+        auto actor = scene->FindActor("cube");
+        if (actor != nullptr)
+        {
+            actor->transform.position += direction * 5.0f * engine.time.deltaTime;
+            actor->transform.rotation.y += engine.time.deltaTime;
+        }
 
         engine.Get<PhoenixEngine::Renderer>()->BeginFrame();
 
-        vertexBuffer->Draw();
+        scene->Draw(nullptr);
 
         engine.Get<PhoenixEngine::Renderer>()->EndFrame();
     }

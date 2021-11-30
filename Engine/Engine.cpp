@@ -14,6 +14,8 @@ namespace PhoenixEngine
 		REGISTER_CLASS(Actor);
 		REGISTER_CLASS(PhysicsComponent);
 		REGISTER_CLASS(AudioComponent);
+		REGISTER_CLASS(CameraComponent);
+		REGISTER_CLASS(MeshComponent);
 	}
 
 	void Engine::Shutdown()
