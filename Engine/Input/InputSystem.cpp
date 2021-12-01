@@ -21,12 +21,15 @@ namespace PhoenixEngine
 		std::copy(keyboardStateSDL + 0, keyboardStateSDL + numKeys, keyboardState.begin());
 
 		prevMouseButtonState = mouseButtonState;
+		prevMousePosition = mousePosition;
+
 		int x, y;
 		Uint32 buttons = SDL_GetMouseState(&x, &y);
 		mousePosition = glm::vec2{ x, y };
 		mouseButtonState[0] = buttons & SDL_BUTTON_LMASK; // buttonsn[0000] & [0RML]
 		mouseButtonState[1] = buttons & SDL_BUTTON_MMASK; // buttonsn[0000] & [0RML]
 		mouseButtonState[2] = buttons & SDL_BUTTON_RMASK; // buttonsn[0000] & [0RML]
+		mouseRelative = mousePosition - prevMousePosition;
 	}
 
 	InputSystem::eKeyState InputSystem::GetKeyState(int id)

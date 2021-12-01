@@ -27,6 +27,7 @@
 #include "Component/PhysicsComponent.h"
 #include "Component/AudioComponent.h"
 #include "Component/CameraComponent.h"
+#include "Component/FreeCameraController.h"
 #include "Component/MeshComponent.h"
 
 // Graphics

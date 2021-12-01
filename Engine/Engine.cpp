@@ -15,6 +15,7 @@ namespace PhoenixEngine
 		REGISTER_CLASS(PhysicsComponent);
 		REGISTER_CLASS(AudioComponent);
 		REGISTER_CLASS(CameraComponent);
+		REGISTER_CLASS(FreeCameraController);
 		REGISTER_CLASS(MeshComponent);
 	}
 

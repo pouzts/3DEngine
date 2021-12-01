@@ -34,7 +34,7 @@ namespace PhoenixEngine
 	void VertexBuffer::CreateIndexBuffer(GLenum indexType, GLsizei count, void* data)
 	{
 		this->indexType = indexType;
-		this->indexCount = indexCount;
+		this->indexCount = count;
 
 		glGenBuffers(1, &ibo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
