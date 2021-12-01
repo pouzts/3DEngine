@@ -57,9 +57,9 @@ int main(int argc, char** argv)
 	PhoenixEngine::SeedRandom(static_cast<unsigned int>(time(nullptr)));
 	PhoenixEngine::SetFilePath("../resources");
 
-	std::shared_ptr<PhoenixEngine::Program> program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("basic_shader");
-	std::shared_ptr<PhoenixEngine::Shader> vshader = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Shader>("shaders/basic.vert", (void*)GL_VERTEX_SHADER);
-	std::shared_ptr<PhoenixEngine::Shader> fshader = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Shader>("shaders/basic.frag", (void*)GL_FRAGMENT_SHADER);
+	std::shared_ptr<PhoenixEngine::Program> program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("light_shader");
+	std::shared_ptr<PhoenixEngine::Shader> vshader = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Shader>("shaders/light.vert", (void*)GL_VERTEX_SHADER);
+	std::shared_ptr<PhoenixEngine::Shader> fshader = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Shader>("shaders/light.frag", (void*)GL_FRAGMENT_SHADER);
 
 	program->AddShader(vshader);
 	program->AddShader(fshader);
@@ -124,12 +124,26 @@ int main(int argc, char** argv)
 		component->vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexBuffer>("cube_mesh");*/
 
 		auto component = PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::ModelComponent>("ModelComponent");
-		component->program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("basic_shader");
+		component->program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("light_shader");
 		component->model = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Model>("models/spot.obj");
 
 		actor->AddComponent(std::move(component));
 		scene->AddActor(std::move(actor));
 	}
+
+	// lighting
+	auto shader = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("light_shader");
+	shader->SetUniform("light.position", glm::vec4{4, 4, 4, 1});
+	
+	shader->SetUniform("light.ambient", glm::vec3{0.25f});
+	shader->SetUniform("material.ambient", glm::vec3{1});
+	
+	shader->SetUniform("light.diffuse", glm::vec3{ 1 });
+	shader->SetUniform("material.diffuse", glm::vec3{ 1 });
+
+	shader->SetUniform("light.specular", glm::vec3{ 1 });
+	shader->SetUniform("material.specular", glm::vec3{ 1 });
+
 
 	glm::vec3 translate{ 0.0f };
 	float angle = 0;

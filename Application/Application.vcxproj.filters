@@ -25,5 +25,11 @@
     <None Include="..\Build\resources\shaders\basic.frag">
       <Filter>Resources</Filter>
     </None>
+    <None Include="..\Build\resources\shaders\light.frag">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\Build\resources\shaders\light.vert">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@ namespace PhoenixEngine
 	bool Model::Load(const std::string& name, void* data)
 	{
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(name, aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFile(name, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
 
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
