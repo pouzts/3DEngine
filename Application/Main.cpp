@@ -75,8 +75,12 @@ int main(int argc, char** argv)
 	vertexBuffer->SetAttribute(2, 2, 8 * sizeof(float), 6 * sizeof(float));
 
 	// texture
-	auto texture = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Texture>("textures/llama.jpg");
+	auto texture = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Texture>("textures/spot.png");
 	texture->Bind();
+
+	texture = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Texture>("textures/spot.png");
+	texture->Bind();
+
 
 
 	//auto texture = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Texture>("textures/wood.png");
@@ -112,11 +116,16 @@ int main(int argc, char** argv)
 	{
 		auto actor = PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::Actor>("Actor");
 		actor->name = "cube";
-		actor->transform.position = glm::vec3{ 0, 0, 0 };
+		actor->transform.position = glm::vec3{ 0 };
+		actor->transform.scale = glm::vec3{ 1 };
 
-		auto component = PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::MeshComponent>("MeshComponent");
+		/*auto component = PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::MeshComponent>("MeshComponent");
 		component->program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("basic_shader");
-		component->vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexBuffer>("cube_mesh");
+		component->vertexBuffer = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::VertexBuffer>("cube_mesh");*/
+
+		auto component = PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::ModelComponent>("ModelComponent");
+		component->program = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Program>("basic_shader");
+		component->model = engine.Get<PhoenixEngine::ResourceSystem>()->Get<PhoenixEngine::Model>("models/spot.obj");
 
 		actor->AddComponent(std::move(component));
 		scene->AddActor(std::move(actor));

@@ -8,6 +8,7 @@ namespace PhoenixEngine
 	class VertexBuffer : public Resource
 	{
 	public:
+		VertexBuffer();
 		virtual ~VertexBuffer();
 		
 		bool Load(const std::string& filename, void* data = nullptr) override;

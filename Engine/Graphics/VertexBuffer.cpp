@@ -2,6 +2,12 @@
 
 namespace PhoenixEngine
 {
+	VertexBuffer::VertexBuffer()
+	{
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+	}
+
 	VertexBuffer::~VertexBuffer()
 	{
 		if (vao != 0) glDeleteVertexArrays(1, &vao);
@@ -11,8 +17,6 @@ namespace PhoenixEngine
 
 	bool VertexBuffer::Load(const std::string& filename, void* data)
 	{
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
 		return true;
 	}
 

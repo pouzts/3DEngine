@@ -113,6 +113,12 @@
     <ClCompile Include="Component\FreeCameraController.cpp">
       <Filter>Source\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\Model.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ModelComponent.cpp">
+      <Filter>Source\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -218,6 +224,12 @@
       <Filter>Source\Component</Filter>
     </ClInclude>
     <ClInclude Include="Component\FreeCameraController.h">
+      <Filter>Source\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Model.h">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ModelComponent.h">
       <Filter>Source\Component</Filter>
     </ClInclude>
   </ItemGroup>
