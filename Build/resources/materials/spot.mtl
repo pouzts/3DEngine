@@ -14,7 +14,7 @@
         1,
         1
     ],
-    "shader_name":"shaders/light.shdr",
+    "shader_name":"shaders/gouraud.shdr",
     "texture_names":[
         "textures/spot.png"
     ]
