@@ -31,5 +31,14 @@
     <None Include="..\Build\resources\shaders\light.vert">
       <Filter>Resources</Filter>
     </None>
+    <None Include="..\Build\resources\materials\spot.mtl">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\Build\resources\materials\wood.mtl">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="..\Build\resources\shaders\light.shdr">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>

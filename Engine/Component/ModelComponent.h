@@ -17,9 +17,8 @@ namespace PhoenixEngine
 		virtual bool Read(const rapidjson::Value& value) override;
 
 	public:
-		std::shared_ptr<Program> program;
-		std::shared_ptr<Material> material;
 		std::shared_ptr<Model> model;
+		std::shared_ptr<Material> material;
 	};
 }
 

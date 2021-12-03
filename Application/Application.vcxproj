@@ -172,9 +172,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Build\resources\materials\spot.mtl" />
+    <None Include="..\Build\resources\materials\wood.mtl" />
     <None Include="..\Build\resources\shaders\basic.frag" />
     <None Include="..\Build\resources\shaders\basic.vert" />
     <None Include="..\Build\resources\shaders\light.frag" />
+    <None Include="..\Build\resources\shaders\light.shdr" />
     <None Include="..\Build\resources\shaders\light.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

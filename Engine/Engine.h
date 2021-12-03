@@ -1,6 +1,7 @@
 #pragma once
 
 #define REGISTER_CLASS(class) PhoenixEngine::ObjectFactory::Instance().Register<class>(#class);
+#define CREATE_ENGINE_OBJECT(class) PhoenixEngine::ObjectFactory::Instance().Create<PhoenixEngine::class>(#class);
 
 // Core
 #include "Core/Json.h"
@@ -30,6 +31,7 @@
 #include "Component/FreeCameraController.h"
 #include "Component/MeshComponent.h"
 #include "Component/ModelComponent.h"
+#include "Component/LightComponent.h"
 
 // Graphics
 #include "Graphics/Renderer.h"

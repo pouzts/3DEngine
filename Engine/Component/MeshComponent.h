@@ -19,7 +19,6 @@ namespace PhoenixEngine
 	public:
 		std::shared_ptr<VertexBuffer> vertexBuffer;
 		std::shared_ptr<Material> material;
-		std::shared_ptr<Program> program;
 	};
 }
 
