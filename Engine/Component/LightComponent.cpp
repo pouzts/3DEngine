@@ -35,6 +35,10 @@ namespace PhoenixEngine
 
 	bool LightComponent::Read(const rapidjson::Value& value)
 	{
+		JSON_READ(value, ambient);
+		JSON_READ(value, diffuse);
+		JSON_READ(value, specular);
+
 		return false;
 	}
 }

@@ -18,8 +18,20 @@ namespace PhoenixEngine
 	{
 		return true;
 	}
+	
 	bool CameraComponent::Read(const rapidjson::Value& value)
 	{
+		float fov;
+		JSON_READ(value, fov);
+		float aspect_ratio;
+		JSON_READ(value, aspect_ratio);
+		float near;
+		JSON_READ(value, near);
+		float far;
+		JSON_READ(value, far);
+
+		SetPerspective(fov, aspect_ratio, near, far);
+
 		return true;
 	}
 }

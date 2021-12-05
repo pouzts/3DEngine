@@ -9,6 +9,15 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Resources\Materials">
+      <UniqueIdentifier>{6f44529b-ca01-4864-a0a8-9e79719c8b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Scenes">
+      <UniqueIdentifier>{43d76900-e357-46d6-80f0-5b648d90103f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Shaders">
+      <UniqueIdentifier>{aa9c8c19-80cf-4e22-9e5c-831ea36e3d9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -19,44 +28,47 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Build\resources\shaders\basic.vert">
-      <Filter>Resources</Filter>
-    </None>
     <None Include="..\Build\resources\shaders\basic.frag">
-      <Filter>Resources</Filter>
+      <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="..\Build\resources\materials\spot.mtl">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="..\Build\resources\materials\wood.mtl">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="..\Build\resources\shaders\gouraud.shdr">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="..\Build\resources\shaders\gouraud.vert">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="..\Build\resources\shaders\gouraud.frag">
-      <Filter>Resources</Filter>
+    <None Include="..\Build\resources\shaders\basic.vert">
+      <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="..\Build\resources\shaders\flat.frag">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="..\Build\resources\shaders\flat.shdr">
-      <Filter>Resources</Filter>
+      <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="..\Build\resources\shaders\flat.vert">
-      <Filter>Resources</Filter>
+      <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="..\Build\resources\shaders\phong.shdr">
-      <Filter>Resources</Filter>
+    <None Include="..\Build\resources\shaders\gouraud.frag">
+      <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="..\Build\resources\shaders\phong.vert">
-      <Filter>Resources</Filter>
+    <None Include="..\Build\resources\shaders\gouraud.shdr">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Build\resources\shaders\gouraud.vert">
+      <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="..\Build\resources\shaders\phong.frag">
-      <Filter>Resources</Filter>
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Build\resources\shaders\phong.shdr">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Build\resources\shaders\phong.vert">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Build\resources\shaders\flat.shdr">
+      <Filter>Resources\Materials</Filter>
+    </None>
+    <None Include="..\Build\resources\materials\spot.mtl">
+      <Filter>Resources\Materials</Filter>
+    </None>
+    <None Include="..\Build\resources\materials\wood.mtl">
+      <Filter>Resources\Materials</Filter>
+    </None>
+    <None Include="..\Build\resources\scenes\main.scn">
+      <Filter>Resources\Scenes</Filter>
     </None>
   </ItemGroup>
 </Project>
