@@ -39,12 +39,22 @@ int main(int argc, char** argv)
 		SDL_PumpEvents();
 		engine->Update();
 		scene->Update(engine->time.deltaTime);
-		// update actor
-		auto actor = scene->FindActor("model");
+
+		//// update actor
+		//auto actor = scene->FindActor("model");
+		//if (actor != nullptr)
+		//{
+		//	actor->transform.rotation.y += engine->time.deltaTime;
+		//}
+		// 
+		 // update actor
+		auto actor = scene->FindActor("light");
 		if (actor != nullptr)
 		{
-			actor->transform.rotation.y += engine->time.deltaTime;
+			glm::mat3 rotation = glm::rotate(engine->time.deltaTime, glm::vec3{ 0, 0, 1 });
+			actor->transform.position = actor->transform.position * rotation;
 		}
+
 		engine->Get<PhoenixEngine::Renderer>()->BeginFrame();
 		scene->Draw(nullptr);
 		engine->Get<PhoenixEngine::Renderer>()->EndFrame();

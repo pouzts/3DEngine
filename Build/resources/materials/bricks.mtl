@@ -1,0 +1,23 @@
+{
+    "ambient":[
+        1,
+        1,
+        0
+    ],
+    "diffuse":[
+        1,
+        1,
+        1
+    ],
+  "specular": [
+    1,
+    1,
+    1
+  ],
+  "shininess":  256,
+    "shader_name":"shaders/phong_normal.shdr",
+    "texture_names":[
+      "textures/brick.png",
+      "textures/brick_normal.png"
+    ]
+}

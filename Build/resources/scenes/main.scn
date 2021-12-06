@@ -16,7 +16,7 @@
         {
           "type": "ModelComponent",
           "model_name": "models/sphere.obj",
-          "material_name": "materials/wood.mtl"
+          "material_name": "materials/bricks.mtl"
         }
       ]
     },
@@ -55,7 +55,7 @@
       "transform": {
         "position": [
           0,
-          0,
+          2,
           4
         ]
       },
