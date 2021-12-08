@@ -17,7 +17,7 @@
   "shininess":  256,
     "shader_name":"shaders/phong_normal.shdr",
     "texture_names":[
-      "textures/brick.png",
-      "textures/brick_normal.png"
+      "textures/ogre_diffuse.bmp",
+      "textures/ogre_normal.bmp"
     ]
 }

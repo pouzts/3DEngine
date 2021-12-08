@@ -15,8 +15,8 @@
       "components": [
         {
           "type": "ModelComponent",
-          "model_name": "models/sphere.obj",
-          "material_name": "materials/bricks.mtl"
+          "model_name": "models/ogre.obj",
+          "material_name": "materials/ogre.mtl"
         }
       ]
     },

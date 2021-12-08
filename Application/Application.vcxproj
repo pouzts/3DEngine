@@ -173,7 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Build\resources\materials\bricks.mtl" />
-    <None Include="..\Build\resources\materials\orge.mtl" />
+    <None Include="..\Build\resources\materials\ogre.mtl" />
     <None Include="..\Build\resources\materials\spot.mtl" />
     <None Include="..\Build\resources\materials\wood.mtl" />
     <None Include="..\Build\resources\scenes\main.scn" />

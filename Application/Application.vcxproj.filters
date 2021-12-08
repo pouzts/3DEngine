@@ -82,7 +82,7 @@
     <None Include="..\Build\resources\shaders\flat.shdr">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="..\Build\resources\materials\orge.mtl">
+    <None Include="..\Build\resources\materials\ogre.mtl">
       <Filter>Resources\Materials</Filter>
     </None>
   </ItemGroup>
