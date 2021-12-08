@@ -15,8 +15,8 @@
       "components": [
         {
           "type": "ModelComponent",
-          "model_name": "models/ogre.obj",
-          "material_name": "materials/ogre.mtl"
+          "model_name": "models/spot.obj",
+          "material_name": "materials/spot.mtl"
         }
       ]
     },
