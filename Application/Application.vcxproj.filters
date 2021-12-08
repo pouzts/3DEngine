@@ -58,9 +58,6 @@
     <None Include="..\Build\resources\shaders\phong.vert">
       <Filter>Resources\Shaders</Filter>
     </None>
-    <None Include="..\Build\resources\shaders\flat.shdr">
-      <Filter>Resources\Materials</Filter>
-    </None>
     <None Include="..\Build\resources\materials\spot.mtl">
       <Filter>Resources\Materials</Filter>
     </None>
@@ -80,6 +77,12 @@
       <Filter>Resources\Shaders</Filter>
     </None>
     <None Include="..\Build\resources\materials\bricks.mtl">
+      <Filter>Resources\Materials</Filter>
+    </None>
+    <None Include="..\Build\resources\shaders\flat.shdr">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\Build\resources\materials\orge.mtl">
       <Filter>Resources\Materials</Filter>
     </None>
   </ItemGroup>
